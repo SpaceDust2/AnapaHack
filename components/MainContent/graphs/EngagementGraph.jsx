@@ -1,6 +1,8 @@
+"use client"
 import React, { useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import Modal from './Modal'; // Убедитесь, что у вас есть компонент Modal
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -28,24 +30,43 @@ const engagementData = {
 };
 
 const EngagementGraph = () => {
-  const [isFullSize, setIsFullSize] = useState(false);
-  const graphStyles = isFullSize ? 'w-full h-full' : 'w-3/4 h-96';
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleGraphClick = () => {
+    setIsModalOpen(true);
+  };
 
   return (
-    <div className={`mb-8 ${graphStyles}`} onClick={() => setIsFullSize(!isFullSize)}>
-      <Doughnut data={engagementData} options={{
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'bottom',
+    <>
+      <div className={`mb-8 w-full`} onClick={handleGraphClick}>
+        <Doughnut data={engagementData} options={{
+          plugins: {
+            legend: {
+              position: 'bottom',
+            },
+            title: {
+              display: true,
+              text: 'Вовлеченность пользователей',
+            },
           },
-          title: {
-            display: true,
-            text: 'Вовлеченность пользователей',
-          },
-        },
-      }} />
-    </div>
+        }} />
+      </div>
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <Doughnut data={engagementData} options={{
+            plugins: {
+              legend: {
+                position: 'bottom',
+              },
+              title: {
+                display: true,
+                text: 'Вовлеченность пользователей',
+              },
+            },
+          }} />
+        </Modal>
+      )}
+    </>
   );
 };
 

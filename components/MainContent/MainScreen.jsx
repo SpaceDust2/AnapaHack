@@ -1,4 +1,4 @@
-// components/mainContent/MainScreen.js
+"use client"
 import React, { useState, useEffect } from 'react';
 import InteractiveGraph from './graphs/InteractiveGraph';
 import CustomerSatisfactionGraph from './graphs/CustomerSatisfactionGraph';
@@ -18,7 +18,6 @@ const metricsData = [
 const MainScreen = () => {
   const [metrics, setMetrics] = useState(metricsData);
   const [selectedGraph, setSelectedGraph] = useState(null);
-  const [isGraphFullSize, setIsGraphFullSize] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -32,7 +31,6 @@ const MainScreen = () => {
 
   const handleGraphClick = (graphName) => {
     setSelectedGraph(graphName);
-    setIsGraphFullSize(!isGraphFullSize);
   };
 
   return (
@@ -45,7 +43,7 @@ const MainScreen = () => {
           </div>
         ))}
       </div>
-      <div className={`grid grid-cols-1 ${isGraphFullSize ? 'md:grid-cols-1' : 'md:grid-cols-2'} lg:grid-cols-3 gap-6`}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div onClick={() => handleGraphClick('interactive')} className="cursor-pointer">
           <InteractiveGraph display={selectedGraph === 'interactive'} />
         </div>

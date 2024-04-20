@@ -1,6 +1,8 @@
+"use client"
 import React, { useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import Modal from './Modal'; // Убедитесь, что у вас есть компонент Modal
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -26,32 +28,61 @@ const profitabilityData = {
 };
 
 const ProfitabilityGraph = () => {
-  const [isFullSize, setIsFullSize] = useState(false);
-  const graphStyles = isFullSize ? 'w-full h-full' : 'w-1/2 h-64';
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleGraphClick = () => {
+    setIsModalOpen(true);
+  };
 
   return (
-    <div className={`mb-8 ${graphStyles}`} onClick={() => setIsFullSize(!isFullSize)}>
-      <Doughnut data={profitabilityData} options={{
-        plugins: {
-          legend: {
-            display: true,
-            position: 'bottom',
-            labels: {
+    <>
+      <div className={`h-full w-full`} onClick={handleGraphClick}>
+        <Doughnut data={profitabilityData} options={{
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: {
+                font: {
+                  size: 14
+                }
+              }
+            },
+            title: {
+              display: true,
+              text: 'Рентабельность продаж',
               font: {
-                size: 14
+                size: 18
               }
             }
-          },
-          title: {
-            display: true,
-            text: 'Рентабельность продаж',
-            font: {
-              size: 18
-            }
           }
-        }
-      }} />
-    </div>
+        }} />
+      </div>
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <Doughnut data={profitabilityData} options={{
+            plugins: {
+              legend: {
+                display: true,
+                position: 'bottom',
+                labels: {
+                  font: {
+                    size: 14
+                  }
+                }
+              },
+              title: {
+                display: true,
+                text: 'Рентабельность продаж',
+                font: {
+                  size: 18
+                }
+              }
+            }
+          }} />
+        </Modal>
+      )}
+    </>
   );
 };
 

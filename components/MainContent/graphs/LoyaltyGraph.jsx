@@ -1,6 +1,8 @@
+"use client"
 import React, { useState } from 'react';
 import { Radar } from 'react-chartjs-2';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
+import Modal from './Modal'; // Убедитесь, что у вас есть компонент Modal
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
@@ -22,52 +24,101 @@ const loyaltyData = {
 };
 
 const LoyaltyGraph = () => {
-  const [isFullSize, setIsFullSize] = useState(false);
-  const graphStyles = isFullSize ? 'w-full h-full' : 'w-3/4 h-96';
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleGraphClick = () => {
+    setIsModalOpen(true);
+  };
 
   return (
-    <div className={`mb-8 ${graphStyles}`} onClick={() => setIsFullSize(!isFullSize)}>
-      <Radar data={loyaltyData} options={{
-        plugins: {
-          legend: {
-            display: true,
-            position: 'top',
-            labels: {
+    <>
+      <div className={`mb-8 w-full`} onClick={handleGraphClick}>
+        <Radar data={loyaltyData} options={{
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                font: {
+                  size: 14
+                }
+              }
+            },
+            title: {
+              display: true,
+              text: 'Лояльность клиентов',
               font: {
-                size: 14
+                size: 18
               }
             }
           },
-          title: {
-            display: true,
-            text: 'Лояльность клиентов',
-            font: {
-              size: 18
+          elements: {
+            line: {
+              borderWidth: 3
+            },
+            point: {
+              radius: 5,
+              borderWidth: 2,
+              hoverRadius: 7,
+              hoverBorderWidth: 3
+            }
+          },
+          scales: {
+            r: {
+              angleLines: {
+                display: false
+              },
+              suggestedMin: 50,
+              suggestedMax: 100
             }
           }
-        },
-        elements: {
-          line: {
-            borderWidth: 3
-          },
-          point: {
-            radius: 5,
-            borderWidth: 2,
-            hoverRadius: 7,
-            hoverBorderWidth: 3
-          }
-        },
-        scales: {
-          r: {
-            angleLines: {
-              display: false
+        }} />
+      </div>
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <Radar data={loyaltyData} options={{
+            plugins: {
+              legend: {
+                display: true,
+                position: 'top',
+                labels: {
+                  font: {
+                    size: 14
+                  }
+                }
+              },
+              title: {
+                display: true,
+                text: 'Лояльность клиентов',
+                font: {
+                  size: 18
+                }
+              }
             },
-            suggestedMin: 50,
-            suggestedMax: 100
-          }
-        }
-      }} />
-    </div>
+            elements: {
+              line: {
+                borderWidth: 3
+              },
+              point: {
+                radius: 5,
+                borderWidth: 2,
+                hoverRadius: 7,
+                hoverBorderWidth: 3
+              }
+            },
+            scales: {
+              r: {
+                angleLines: {
+                  display: false
+                },
+                suggestedMin: 50,
+                suggestedMax: 100
+              }
+            }
+          }} />
+        </Modal>
+      )}
+    </>
   );
 };
 

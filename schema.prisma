@@ -1,57 +1,71 @@
-// schema.prisma
+  // schema.prisma
 
-generator client {
-  provider = "prisma-client-js"
-}
+  generator client {
+    provider = "prisma-client-js"
+  }
 
-datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
-}
+  datasource db {
+    provider = "postgresql"
+    url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+    directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  }
 
-model Place {
-  id          String   @default(cuid()) @id
-  name        String
-  description String
-  type        String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  statistics  Statistic[]
-  tickets     Ticket[]
-  @@map(name: "places")
-}
+  model Place {
+    id          String   @default(cuid()) @id
+    name        String
+    description String
+    type        String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    statistics  Statistic[]
+    tickets     Ticket[]
+    @@map(name: "places")
+  }
 
-model Statistic {
-  id          String   @default(cuid()) @id
-  name        String
-  value       Float
-  placeId     String
-  place       Place    @relation(fields: [placeId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  @@map(name: "statistics")
-}
+  model Statistic {
+    id          String   @default(cuid()) @id
+    name        String
+    value       Float
+    placeId     String
+    place       Place    @relation(fields: [placeId], references: [id])
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    @@map(name: "statistics")
+  }
 
-model Ticket {
-  id          String   @default(cuid()) @id
-  userId      String
-  placeId     String
-  user        User     @relation(fields: [userId], references: [id])
-  place       Place    @relation(fields: [placeId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  @@map(name: "tickets")
-}
+  model Ticket {
+    id          String   @default(cuid()) @id
+    userId      String
+    placeId     String
+    user        User     @relation(fields: [userId], references: [id])
+    place       Place    @relation(fields: [placeId], references: [id])
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    @@map(name: "tickets")
+  }
 
-model User {
-  id          String    @default(cuid()) @id
-  fullName    String
-  role        String
-  points      Int
-  message     String?
-  tickets     Ticket[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  @@map(name: "users")
-}
+  model User {
+    id          String    @default(cuid()) @id
+    fullName    String
+    role        String
+    points      Int
+    message     String?
+    tickets     Ticket[]
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    @@map(name: "users")
+  }
+  
+  model Inquiry {
+    id              String   @default(cuid()) @id
+    userId          String
+    user            User     @relation(fields: [userId], references: [id])
+    subject         String
+    message         String
+    status          String   // Новое, В процессе, Завершено
+    responseMessage String?  // Ответное сообщение
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    @@map(name: "Inquiries")
+  }

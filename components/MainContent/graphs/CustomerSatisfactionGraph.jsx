@@ -1,6 +1,8 @@
+"use client"
 import React, { useState } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import Modal from './Modal'; // Предполагается, что у вас есть компонент модального окна
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -30,24 +32,61 @@ const satisfactionData = {
 };
 
 const CustomerSatisfactionGraph = () => {
-  const [isFullSize, setIsFullSize] = useState(false);
-  const graphStyles = isFullSize ? 'w-full h-full' : 'w-3/4 h-96';
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleGraphClick = () => {
+    setIsModalOpen(true);
+  };
 
   return (
-    <div className={`mb-8 ${graphStyles}`} onClick={() => setIsFullSize(!isFullSize)}>
-      <Pie data={satisfactionData} options={{
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top',
-          },
-          title: {
-            display: true,
-            text: 'Удовлетворенность клиентов',
-          },
-        },
-      }} />
-    </div>
+    <>
+      <div className={`mb-8 w-full`} onClick={handleGraphClick}>
+        <Pie data={satisfactionData} options={{
+          plugins: {
+            legend: {
+              display: true,
+              position: 'bottom',
+              labels: {
+                font: {
+                  size: 14
+                }
+              }
+            },
+            title: {
+              display: true,
+              text: 'Удовлетворенность клиентов',
+              font: {
+                size: 18
+              }
+            }
+          }
+        }} />
+      </div>
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <Pie data={satisfactionData} options={{
+            plugins: {
+              legend: {
+                display: true,
+                position: 'bottom',
+                labels: {
+                  font: {
+                    size: 14
+                  }
+                }
+              },
+              title: {
+                display: true,
+                text: 'Удовлетворенность клиентов',
+                font: {
+                  size: 18
+                }
+              }
+            }
+          }} />
+        </Modal>
+      )}
+    </>
   );
 };
 
