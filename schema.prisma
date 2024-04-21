@@ -44,28 +44,57 @@
     @@map(name: "tickets")
   }
 
-  model User {
-    id          String    @default(cuid()) @id
-    fullName    String
-    role        String
-    points      Int
-    message     String?
-    tickets     Ticket[]
-    createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @updatedAt
-    @@map(name: "users")
-  }
-  
-  model Inquiry {
-    id              String   @default(cuid()) @id
-    userId          String
-    user            User     @relation(fields: [userId], references: [id])
-    subject         String
-    message         String
-    status          String   // Новое, В процессе, Завершено
-    responseMessage String?  // Ответное сообщение
-    createdAt       DateTime @default(now())
-    updatedAt       DateTime @updatedAt
+ model User {
+  id          String    @default(cuid()) @id
+  fullName    String
+  role        String
+  points      Int
+  message     String?
+  tickets     Ticket[]
+  inquiries   Inquiry[]  // Добавлено поле для связи с обращениями
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  @@map(name: "users")
+}
 
-    @@map(name: "Inquiries")
-  }
+model Inquiry {
+  id              String   @default(cuid()) @id
+  userId          String
+  user            User     @relation(fields: [userId], references: [id])
+  subject         String
+  message         String
+  status          String   // Новое, В процессе, Завершено
+  responseMessage String?  // Ответное сообщение
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@map(name: "inquiries")
+}
+model Review {
+  id         Int      @id @default(autoincrement())
+  businessId Int      // ID бизнеса, на который оставлен отзыв
+  author     String   // Автор отзыва
+  content    String   // Текст отзыва
+  score      Int      // Оценка бизнеса
+  createdAt  DateTime @default(now())
+
+  business   Business @relation(fields: [businessId], references: [id])
+  @@map(name:"reviews")
+}
+
+model Business {
+  id              Int       @id @default(autoincrement())
+  name            String
+  description     String
+  applicationText String?   // Текст заявки, который обнуляется при одобрении
+  isApproved      Boolean   @default(false) // Поле, определяющее одобрение заявки
+  points          Int?      // Количество баллов бизнеса, null для новых заявок
+  status          String?   // Статус бизнеса, null для новых заявок
+  reviews         Review[]  // Связь с отзывами
+  latitude        Float?
+  longitude       Float?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  @@map(name:"businesses")
+
+}

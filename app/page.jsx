@@ -16,9 +16,9 @@ export default function Admin() {
       <Head>
         <title>Admin Panel - {activeTab}</title>
       </Head>
-      {isSidebarOpen && <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />}
+      {isSidebarOpen && <Sidebar  activeTab={activeTab} setActiveTab={setActiveTab} />}
       {/* <Sidebar /> */}
-      <div className="flex flex-col flex-grow">
+      <div className="flex flex-col justify-between flex-grow">
         <Header onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}/>
         <MainContent activeTab={activeTab} />
         <Footer />

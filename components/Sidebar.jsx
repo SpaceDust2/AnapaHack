@@ -1,11 +1,11 @@
-
+import { FaSun } from "react-icons/fa6";
 
 const Sidebar = ({ activeTab, setActiveTab }) => {
     return (
-      <aside className="bg-gray-700 text-white w-64 space-y-2 py-4 flex flex-col">
+      <aside className="sticky bg-gray-700 h-screen text-white w-64 space-y-2 py-4 flex flex-col">
         {/* Logo */}
-        <div className="px-4 mb-4">
-          <img src="/logo.jpeg" alt="Логотип приложения" className="w-16 h-16" />
+        <div className="flex px-4 mb-4 items-center justify-center">
+        <FaSun className=" w-24 h-24"/>
         </div>
         {/* Navigation */}
         <nav className="flex-grow px-4">

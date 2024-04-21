@@ -8,9 +8,9 @@ const Modal = ({ children, onClose }) => {
           <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
             {/* Иконка или изображение для модального окна */}
           </div>
-          <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+          {/* <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
             Заголовок модального окна
-          </h3>
+          </h3> */}
           <div className="mt-2 px-7 py-3">
             {children}
           </div>
