@@ -44,3 +44,18 @@ export const getBusinessLocation = async (businessId) => {
     return business || {};
   };
   
+  export const updatedBusiness = async (businessId, updateData) => {
+    const business = await prisma.business.update({
+      where: { id: businessId },
+      data: {
+        ...updateData,
+        // Предполагается, что updateData содержит поля, которые нужно обновить, например:
+        // name: 'Новое название',
+        // description: 'Новое описание',
+        // latitude: 59.9342802,
+        // longitude: 30.3350986,
+        // Другие поля...
+      }
+    });
+    return business;
+  };
