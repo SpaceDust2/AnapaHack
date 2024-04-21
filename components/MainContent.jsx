@@ -1,11 +1,11 @@
 // components/MainContent.js
 // import Helper from './MainContent/Helper';
 // import Settings from './MainContent/Settings';
-import MainScreen from './mainContent/MainScreen.jsx';
-import Users from './mainContent/Users.jsx';
-import Business from './mainContent/Business.jsx';
-import Content from './mainContent/Content.jsx';
-import UserMessages from './mainContent/UserMessages.jsx';
+import MainScreen from '@/components/MainContent/MainScreen.jsx';
+import Users from '@/components/MainContent/Users.jsx';
+import Business from '@/components/MainContent/Business.jsx';
+import Content from '@/components/MainContent/Content.jsx';
+import UserMessages from '@/components/MainContent/UserMessages.jsx';
 
 const MainContent = ({ activeTab }) => {
   // Отображение различного содержимого в зависимости от activeTab
